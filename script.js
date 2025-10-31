@@ -1,24 +1,33 @@
-async function searchResult() {
-    const rollInput = document.getElementById("rollNo").value.trim();
-    const rollNo = parseInt(rollInput);
+async function fetchResult() {
+    const rollNo = document.getElementById("rollInput").value.trim();
+    const resultBox = document.getElementById("result");
 
-    const response = await fetch("results.json");
-    const data = await response.json();
+    if (!rollNo) {
+        resultBox.innerHTML = "<p>Please enter a Roll Number.</p>";
+        return;
+    }
 
-    const result = data.find(item => parseInt(item.roll_no) === rollNo);
+    try {
+        const response = await fetch("results.json");
+        const data = await response.json();
 
-    const output = document.getElementById("result");
+        if (data[rollNo]) {
+            const student = data[rollNo];
 
-    if (result) {
-        output.innerHTML = `
-            <p><strong>Roll No:</strong> ${result.roll_no}</p>
-            <p><strong>Name:</strong> ${result.name}</p>
-            <p><strong>Father's Name:</strong> ${result.fathers_name}</p>
-            <p><strong>Grand Total:</strong> ${result.grand_total}</p>
-            <p><strong>Grade:</strong> ${result.grade}</p>
-            <p><strong>Percentage:</strong> ${result.percentage}</p>
-        `;
-    } else {
-        output.innerHTML = "<p style='color:red;'>No Record Found</p>";
+            resultBox.innerHTML = `
+                <h3>Result</h3>
+                <p><strong>Roll No:</strong> ${rollNo}</p>
+                <p><strong>Name:</strong> ${student.name}</p>
+                <p><strong>Father's Name:</strong> ${student.fathers_name}</p>
+                <p><strong>Grand Total:</strong> ${student.grand_total}</p>
+                <p><strong>Grade:</strong> ${student.grade}</p>
+                <p><strong>Percentage:</strong> ${student.percentage}</p>
+            `;
+        } else {
+            resultBox.innerHTML = "<p>Result Not Found. Please check the roll number.</p>";
+        }
+    } catch (error) {
+        resultBox.innerHTML = "<p>Error loading results file.</p>";
+        console.error(error);
     }
 }
