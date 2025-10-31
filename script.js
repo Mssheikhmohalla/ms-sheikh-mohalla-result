@@ -1,33 +1,30 @@
-async function fetchResult() {
-    let roll = document.getElementById("rollInput").value.trim();
-    let resultDiv = document.getElementById("result");
-
-    if (roll === "") {
+async function searchResult() {
+    const rollInput = document.getElementById("rollno").value.trim();
+    const resultDiv = document.getElementById("result");
+    
+    if (rollInput === "") {
         resultDiv.innerHTML = "<p>Please enter a Roll Number.</p>";
         return;
     }
 
     try {
-        let response = await fetch("result.json");
-        let data = await response.json();
+        const response = await fetch("results 2.json"); // <-- Using correct JSON file
+        const data = await response.json();
 
-        let student = data.find(s => s.Roll == roll);
+        const student = data.find(item => item["Roll No."] == rollInput);
 
-        if (!student) {
-            resultDiv.innerHTML = "<p style='color:red;'>No record found for Roll Number: " + roll + "</p>";
-            return;
+        if (student) {
+            resultDiv.innerHTML = `
+                <p><strong>Name:</strong> ${student["Name"]}</p>
+                <p><strong>Grand Total:</strong> ${student["Grand Total"]}</p>
+                <p><strong>Grade:</strong> ${student["Grade"]}</p>
+                <p><strong>Remark:</strong> ${student["Remark"]}</p>
+            `;
+        } else {
+            resultDiv.innerHTML = "<p>Result not found. Please check the Roll Number.</p>";
         }
 
-        resultDiv.innerHTML = `
-            <div class="result-box">
-                <p><strong>Roll No:</strong> ${student.Roll}</p>
-                <p><strong>Name:</strong> ${student.Name}</p>
-                <p><strong>Grand Total:</strong> ${student.GrandTotal}</p>
-                <p><strong>Grade:</strong> ${student.Grade}</p>
-                <p><strong>Percentage:</strong> ${student.Percentage}%</p>
-            </div>
-        `;
     } catch (error) {
-        resultDiv.innerHTML = "<p style='color:red;'>Failed to load result data.</p>";
+        resultDiv.innerHTML = "<p>Error loading results. Please try again later.</p>";
     }
 }
