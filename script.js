@@ -1,30 +1,24 @@
 async function searchResult() {
-  const rollInput = document.getElementById("rollno").value.trim();
-  const resultDiv = document.getElementById("result");
+    const rollInput = document.getElementById("rollNo").value.trim();
+    const rollNo = parseInt(rollInput);
 
-  if (rollInput === "") {
-    resultDiv.innerHTML = "<p>Please enter a Roll Number.</p>";
-    return;
-  }
-
-  try {
     const response = await fetch("results.json");
     const data = await response.json();
 
-    const student = data[rollInput];
+    const result = data.find(item => parseInt(item.roll_no) === rollNo);
 
-    if (student) {
-      resultDiv.innerHTML = `
-        <p><strong>Name:</strong> ${student["Name"]}</p>
-        <p><strong>Father's Name:</strong> ${student["Father"]}</p>
-        <p><strong>Grand Total:</strong> ${student["Total"]}</p>
-        <p><strong>Grade:</strong> ${student["Grade"]}</p>
-      `;
+    const output = document.getElementById("result");
+
+    if (result) {
+        output.innerHTML = `
+            <p><strong>Roll No:</strong> ${result.roll_no}</p>
+            <p><strong>Name:</strong> ${result.name}</p>
+            <p><strong>Father's Name:</strong> ${result.fathers_name}</p>
+            <p><strong>Grand Total:</strong> ${result.grand_total}</p>
+            <p><strong>Grade:</strong> ${result.grade}</p>
+            <p><strong>Percentage:</strong> ${result.percentage}</p>
+        `;
     } else {
-      resultDiv.innerHTML = "<p>Result not found. Check Roll Number.</p>";
+        output.innerHTML = "<p style='color:red;'>No Record Found</p>";
     }
-
-  } catch (error) {
-    resultDiv.innerHTML = "<p>Error loading data.</p>";
-  }
 }
