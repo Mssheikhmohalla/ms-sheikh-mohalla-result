@@ -8,7 +8,7 @@ async function searchResult() {
   }
 
   try {
-    const response = await fetch("results 2.json");
+    const response = await fetch("results.json");
     const data = await response.json();
 
     const student = data[rollInput];
