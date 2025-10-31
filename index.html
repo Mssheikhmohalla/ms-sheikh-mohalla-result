@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -6,30 +5,12 @@
 <title>MS Sheikh Mohalla 8th Result</title>
 </head>
 <body>
-<h2>8th Class Result - MS Sheikh Mohalla</h2>
-<input id="roll" type="text" placeholder="Enter Roll Number">
-<button onclick="search()">Search</button>
+
+<h2>8th Class Result – MS Sheikh Mohalla</h2>
+<input id="rollInput" type="text" placeholder="Enter Roll Number">
+<button onclick="fetchResult()">Search</button>
 <p id="result"></p>
 
-<script>
-let data = null;
-fetch('result.json')
-  .then(response => response.json())
-  .then(json => data = json);
-
-function search() {
-  const roll = document.getElementById('roll').value.trim();
-  const student = data.find(s => s["Roll No."] == roll);
-  if(student) {
-    document.getElementById('result').innerHTML = 
-      "Name: " + student["Name"] + "<br>" +
-      "Father's Name: " + student["Father's Name"] + "<br>" +
-      "Total Marks: " + student["Total"];
-  } else {
-    document.getElementById('result').innerHTML = "Not Found";
-  }
-}
-</script><script src="script.js"></script>
+<script src="script.js"></script>
 </body>
-  
 </html>
