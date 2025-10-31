@@ -17,4 +17,4 @@ fetch("data.json")
         document.getElementById("result").innerHTML = "<p>Result not found</p>";
       }
     });
-  })
+  });
