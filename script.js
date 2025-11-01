@@ -7,7 +7,7 @@ document.getElementById("searchBtn").addEventListener("click", function () {
         return;
     }
 
-    fetch("data.json")
+    fetch("results.json")
         .then(response => response.json())
         .then(data => {
             // Find student object by matching roll_no
